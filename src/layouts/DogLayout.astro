@@ -1,0 +1,41 @@
+---
+import Layout from './Layout.astro';
+
+const { frontmatter } = Astro.props;
+const { name, longAlias, image, weight, headSize, height, stillGrowing } = frontmatter;
+---
+
+<Layout title={name}>
+  <div class="container mx-auto px-4 py-12">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="md:flex">
+        <div class="md:w-1/2">
+          <img src={image} alt={name} class="w-full h-full object-cover" />
+        </div>
+        <div class="md:w-1/2 p-8">
+          <h1 class="text-3xl font-bold mb-2">{name}</h1>
+          <p class="text-gray-600 text-xl mb-6">{longAlias}</p>
+          
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-gray-100 p-4 rounded">
+              <span class="font-semibold">Weight:</span> {weight} lbs
+            </div>
+            <div class="bg-gray-100 p-4 rounded">
+              <span class="font-semibold">Head Size:</span> {headSize}"
+            </div>
+            <div class="bg-gray-100 p-4 rounded">
+              <span class="font-semibold">Height:</span> {height}"
+            </div>
+            <div class="bg-gray-100 p-4 rounded">
+              <span class="font-semibold">Still Growing:</span> {stillGrowing ? 'Yes' : 'No'}
+            </div>
+          </div>
+          
+          <div class="prose max-w-none">
+            <slot />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout> 

@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import DogLayout from '../../layouts/DogLayout.astro';
+
+export async function getStaticPaths() {
+  const maleDogs = await getCollection('dogs', ({ id }) => {
+    return id.startsWith('males/');
+  });
+  
+  return maleDogs.map(dog => {
+    // Extract just the filename part as the slug
+    const slug = dog.id.split('/').pop().replace(/\.md$/, '');
+    return {
+      params: { slug },
+      props: { dog },
+    };
+  });
+}
+
+const { dog } = Astro.props;
+const { Content } = await dog.render();
+---
+
+<DogLayout frontmatter={dog.data}>
+  <Content />
+</DogLayout> 

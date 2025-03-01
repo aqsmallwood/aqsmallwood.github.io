@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const breedings = await getCollection('breedings');
+  const maleDogs = await getCollection('dogs', ({ id }) => id.startsWith('males/'));
+  const femaleDogs = await getCollection('dogs', ({ id }) => id.startsWith('females/'));
+  
+  // Create maps for easy lookup
+  const maleDogsMap = new Map(maleDogs.map(dog => [dog.id.split('/').pop().replace(/\.md$/, ''), dog]));
+  const femaleDogsMap = new Map(femaleDogs.map(dog => [dog.id.split('/').pop().replace(/\.md$/, ''), dog]));
+  
+  return breedings.map(breeding => {
+    // Extract just the filename part as the slug
+    const slug = breeding.id.replace(/\.md$/, '');
+    return {
+      params: { slug },
+      props: { 
+        breeding,
+        father: maleDogsMap.get(breeding.data.father),
+        mother: femaleDogsMap.get(breeding.data.mother)
+      },
+    };
+  });
+}
+
+const { breeding, father, mother } = Astro.props;
+const { Content } = await breeding.render();
+---
+
+<Layout title={breeding.data.title}>
+  <div class="container mx-auto px-4 py-12">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="p-8">
+        <h1 class="text-3xl font-bold mb-6">{breeding.data.title}</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h2 class="text-xl font-semibold mb-4">Father: {father?.data.name || 'Unknown'}</h2>
+            <img 
+              src={breeding.data.fatherImage} 
+              alt={father?.data.name || 'Father'} 
+              class="w-full h-64 object-cover rounded-lg mb-4"
+            />
+            {father && (
+              <div class="grid grid-cols-2 gap-2">
+                <div><span class="font-medium">Weight:</span> {father.data.weight} lbs</div>
+                <div><span class="font-medium">Height:</span> {father.data.height}"</div>
+                <div><span class="font-medium">Head Size:</span> {father.data.headSize}"</div>
+                <div>
+                  <span class="font-medium">Still Growing:</span> 
+                  {father.data.stillGrowing ? 'Yes' : 'No'}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div>
+            <h2 class="text-xl font-semibold mb-4">Mother: {mother?.data.name || 'Unknown'}</h2>
+            <img 
+              src={breeding.data.motherImage} 
+              alt={mother?.data.name || 'Mother'} 
+              class="w-full h-64 object-cover rounded-lg mb-4"
+            />
+            {mother && (
+              <div class="grid grid-cols-2 gap-2">
+                <div><span class="font-medium">Weight:</span> {mother.data.weight} lbs</div>
+                <div><span class="font-medium">Height:</span> {mother.data.height}"</div>
+                <div><span class="font-medium">Head Size:</span> {mother.data.headSize}"</div>
+                <div>
+                  <span class="font-medium">Still Growing:</span> 
+                  {mother.data.stillGrowing ? 'Yes' : 'No'}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold mb-4">Puppies Availability & Pricing</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-xl font-medium mb-3">Males</h3>
+              <ul class="space-y-3">
+                <li class="flex justify-between items-center border-b pb-2">
+                  <span>1st Male:</span>
+                  <span class={breeding.data.firstMaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.firstMaleSold ? 'SOLD' : `$${breeding.data.firstMalePrice}`}
+                  </span>
+                </li>
+                <li class="flex justify-between items-center border-b pb-2">
+                  <span>2nd Male:</span>
+                  <span class={breeding.data.secondMaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.secondMaleSold ? 'SOLD' : `$${breeding.data.secondMalePrice}`}
+                  </span>
+                </li>
+                <li class="flex justify-between items-center">
+                  <span>3rd Male:</span>
+                  <span class={breeding.data.thirdMaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.thirdMaleSold ? 'SOLD' : `$${breeding.data.thirdMalePrice}`}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-xl font-medium mb-3">Females</h3>
+              <ul class="space-y-3">
+                <li class="flex justify-between items-center border-b pb-2">
+                  <span>1st Female:</span>
+                  <span class={breeding.data.firstFemaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.firstFemaleSold ? 'SOLD' : `$${breeding.data.firstFemalePrice}`}
+                  </span>
+                </li>
+                <li class="flex justify-between items-center border-b pb-2">
+                  <span>2nd Female:</span>
+                  <span class={breeding.data.secondFemaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.secondFemaleSold ? 'SOLD' : `$${breeding.data.secondFemalePrice}`}
+                  </span>
+                </li>
+                <li class="flex justify-between items-center">
+                  <span>3rd Female:</span>
+                  <span class={breeding.data.thirdFemaleSold ? "text-red-600 font-bold" : "text-green-600"}>
+                    {breeding.data.thirdFemaleSold ? 'SOLD' : `$${breeding.data.thirdFemalePrice}`}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="prose max-w-none">
+          <Content />
+        </div>
+        
+        <div class="mt-8">
+          <a href="/contact" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+            Contact Us About This Breeding
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout> 

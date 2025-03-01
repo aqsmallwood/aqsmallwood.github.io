@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import { getCollection } from 'astro:content';
+
+const aboutEntries = await getCollection('about');
+const latestAbout = aboutEntries.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+)[0];
+
+const { Content } = await latestAbout.render();
+---
+
+<Layout title="Home">
+  <Hero 
+    title="Dog Breeding Company" 
+    subtitle="Quality dogs for loving homes" 
+    image={latestAbout.data.image}
+  />
+  
+  <section class="container mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">About Us</h2>
+      <div class="prose max-w-none">
+        <Content />
+      </div>
+    </div>
+  </section>
+</Layout> 

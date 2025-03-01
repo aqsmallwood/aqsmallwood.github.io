@@ -1,0 +1,32 @@
+dog-breeding-company/
+├── public/
+│   ├── admin/
+│   │   ├── config.yml
+│   │   └── index.html
+│   └── images/
+├── src/
+│   ├── components/
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   ├── DogCard.astro
+│   │   ├── BreedingCard.astro
+│   │   ├── ContactForm.astro
+│   │   └── Hero.astro
+│   ├── content/
+│   │   ├── dogs/
+│   │   │   ├── males/
+│   │   │   └── females/
+│   │   ├── breedings/
+│   │   └── about/
+│   ├── layouts/
+│   │   ├── Layout.astro
+│   │   └── DogLayout.astro
+│   └── pages/
+│       ├── index.astro
+│       ├── males.astro
+│       ├── females.astro
+│       ├── breedings.astro
+│       └── contact.astro
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json 

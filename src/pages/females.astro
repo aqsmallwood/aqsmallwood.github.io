@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DogCard from '../components/DogCard.astro';
+import { getCollection } from 'astro:content';
+
+const femaleDogs = await getCollection('dogs', ({ id }) => {
+  return id.startsWith('females/');
+});
+---
+
+<Layout title="Female Dogs">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-12 text-center">Our Female Dogs</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {femaleDogs.map(dog => (
+        <DogCard 
+          name={dog.data.name}
+          longAlias={dog.data.longAlias}
+          image={dog.data.image}
+          weight={dog.data.weight}
+          headSize={dog.data.headSize}
+          height={dog.data.height}
+          stillGrowing={dog.data.stillGrowing}
+          url={`/females/${dog.slug}`}
+        />
+      ))}
+    </div>
+  </div>
+</Layout> 
