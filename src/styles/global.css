@@ -3,3 +3,24 @@
 @tailwind utilities;
 
 /* Add any custom styles below */ 
+
+@font-face {
+    font-family: 'play';
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/logo.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'wild';
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/wild.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'nav';
+    font-style: normal;
+    font-display: swap;
+    src: url("/fonts/nav.woff2") format("woff2");
+}

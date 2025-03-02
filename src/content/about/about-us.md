@@ -1,7 +1,7 @@
 ---
 title: "About Our Dog Breeding Company"
 date: 2023-01-15T09:00:00Z
-image: "/images/hero-dogs.jpg"
+image: "/images/hero.jpg"
 ---
 
 # Welcome to Our Dog Breeding Company

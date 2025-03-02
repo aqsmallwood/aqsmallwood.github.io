@@ -193,16 +193,30 @@ declare module 'astro:content' {
 } & { render(): Render[".md"] };
 };
 "dogs": {
-"females/bella.md": {
-	id: "females/bella.md";
-  slug: "females/bella";
+"females/reeses.md": {
+	id: "females/reeses.md";
+  slug: "females/reeses";
   body: string;
   collection: "dogs";
   data: InferEntrySchema<"dogs">
 } & { render(): Render[".md"] };
-"males/max.md": {
-	id: "males/max.md";
-  slug: "males/max";
+"males/benny.md": {
+	id: "males/benny.md";
+  slug: "males/benny";
+  body: string;
+  collection: "dogs";
+  data: InferEntrySchema<"dogs">
+} & { render(): Render[".md"] };
+"males/buffalo.md": {
+	id: "males/buffalo.md";
+  slug: "males/buffalo";
+  body: string;
+  collection: "dogs";
+  data: InferEntrySchema<"dogs">
+} & { render(): Render[".md"] };
+"males/tony.md": {
+	id: "males/tony.md";
+  slug: "males/tony";
   body: string;
   collection: "dogs";
   data: InferEntrySchema<"dogs">

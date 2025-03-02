@@ -10,6 +10,7 @@ const dogsCollection = defineCollection({
     headSize: z.number(),
     height: z.number(),
     stillGrowing: z.boolean(),
+    order: z.number(),
   }),
 });
 
